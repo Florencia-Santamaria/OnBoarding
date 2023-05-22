@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<RootNamespace>onboardingback.Infrastructure</RootNamespace>
+	<AssemblyName>onboardingback.Infrastructure</AssemblyName>
+  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
+  <ItemGroup>
+	<Folder Include="EventHandler\" />
+	<Folder Include="Persistence\Configurations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Andreani.ARQ.CQRS" Version="6.1.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,46 @@
+ApplicationName: onboardingback
+Serilog:
+  MinimumLevel:
+    Default: Information
+    Override:
+      Microsoft: Information
+      System: Error
+      Microsoft.AspNetCore: Warning     
+  WriteTo:
+  - Name: Console
+    Args: 
+        theme: "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Literate, Serilog.Sinks.Console"
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} | {ThreadId} | {Level:u4} | {AppDomain} | {SourceContext} | {Message:lj}{NewLine}{Exception}"
+  #- Name: File
+  #  Args:
+  #    path: Logs/log.txt
+  #    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} | {ThreadId} | {Level:u4} | {AppDomain} | {SourceContext} | {Message:lj}{NewLine}{Exception}"
+  #    rollingInterval: Day
+  #    fileSizeLimitBytes: 10485760
+  #    rollOnFileSizeLimit: true
+  #    retainedFileCountLimit: 10
+  Enrich:
+  - FromLogContext
+  - WithThreadId
+ElasticApm:
+  SecretToken: ""
+  ServerUrls: "https://apm-server-architecture-it-test.apps.ocptest.andreani.com.ar"
+  ServiceName: "set-proyect-name"
+  Environment: "Development"
+  Enabled: false
+
+#ApplicationName: onboarding_backend
+#DataAccessRegistry:
+#  ReadOnlyConnection: "Data Source=DBONBOARDDESA.andreani.com.ar;Initial Catalog=Onboarding;Persist Security Info=True;User ID=User_Onboarding;Password=0jp9dQALTMkOMVC0Wss2"
+#  TransactionalConnection: "Data Source=DBONBOARDDESA.andreani.com.ar;Initial Catalog=Onboarding;Persist Security Info=True;User ID=User_Onboarding;Password=0jp9dQALTMkOMVC0Wss2"
+#  ProviderName: System.Data.SqlClient
+#AMQStreams:
+#  GroupId: ExampleGroup
+#  BootstrapServer: "SSL://cluster-kafka-bootstrap-amq-streams-test.apps.ocptest.andreani.com.ar:443"
+#  SchemaUrl: "http://apicurioregistry/apis/ccompat/v6"
+#  Protocol: Ssl
+#  SslCertificateLocation: "./kafka.pem"
+#  EnableSslCertificateVerification: false
+#  AutoOffsetReset: Earliest
+#  AutoRegisterSchemas: true
+#  MaxRetry: 3
