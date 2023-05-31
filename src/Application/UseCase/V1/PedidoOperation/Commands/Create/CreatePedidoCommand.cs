@@ -1,12 +1,11 @@
 ﻿using Andreani.ARQ.Core.Interface;
 using Andreani.ARQ.Pipeline.Clases;
-using onboardingback.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
-using onboardingback.Application.UseCase.V1.PersonOperation.Queries.GetList;
+
 
 namespace onboardingback.Application.UseCase.V1.PersonOperation.Commands.Create
 {
@@ -22,16 +21,18 @@ namespace onboardingback.Application.UseCase.V1.PersonOperation.Commands.Create
     {
         private readonly ITransactionalRepository _repository;
         private readonly ILogger<CreatePedidoCommandHandler> _logger;
+        private readonly Andreani.ARQ.AMQStreams.Interface.IPublisher _publish;
 
-        public CreatePedidoCommandHandler(ITransactionalRepository repository, ILogger<CreatePedidoCommandHandler> logger)
+        public CreatePedidoCommandHandler(ITransactionalRepository repository, ILogger<CreatePedidoCommandHandler> logger, Andreani.ARQ.AMQStreams.Interface.IPublisher publish)
         {
             _repository = repository;
             _logger = logger;
+            _publish = publish;
         }
 
         public async Task<Response<CreatePedidoResponse>> Handle(CreatePedidoCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Pedido
+            var entity = new Domain.Entities.Pedido
             {
                 cuentaCorriente = request.cuentaCorriente,
                 codigoDeContratoInterno = request.codigoDeContratoInterno, 
@@ -46,6 +47,19 @@ namespace onboardingback.Application.UseCase.V1.PersonOperation.Commands.Create
             _repository.Insert(entity);
             await _repository.SaveChangeAsync();
             _logger.LogDebug("El pedido se agregó correctamente");
+
+            var evento = new Andreani.Scheme.Onboarding.Pedido();
+            evento.cicloDelPedido = entity.cicloDelPedido;
+            evento.id = entity.id.ToString();
+            evento.cuentaCorriente = entity.cuentaCorriente;
+            evento.codigoDeContratoInterno = entity.codigoDeContratoInterno;
+            evento.cuando = entity.cuando.ToString();
+            evento.numeroDePedido = 0;
+            evento.estadoDelPedido = entity.estadoDelPedido.ToString();
+
+            await _publish.To<Andreani.Scheme.Onboarding.Pedido >(evento,entity.id.ToString(),"PedidoCreado");
+
+
 
             return new Response<CreatePedidoResponse>
             {

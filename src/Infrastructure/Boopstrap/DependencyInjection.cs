@@ -2,6 +2,7 @@
 using onboardingback.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace onboardingback.Infrastructure;
 
 public static class DependencyInjection
