@@ -11,7 +11,7 @@ using onboarding_backend.Domain.Enums;
 using onboarding_backend.Domain.Entities;
 using System;
 
-namespace onboardingback.Application.UseCase.V1.PersonOperation.Queries.GetList {
+namespace onboardingback.Application.UseCase.V1.PedidoOperation.Queries.Get {
 
   public class PedidoById : IRequest<Response<PedidoDto>> //salida del request
   {
@@ -37,24 +37,24 @@ namespace onboardingback.Application.UseCase.V1.PersonOperation.Queries.GetList 
 
     public async Task<Response<PedidoDto>> Handle(PedidoById request, CancellationToken cancellationToken)
     {
-      var result = await _query.GetByIdAsync<Pedido>(request.id);
+        var result = await _query.GetByIdAsync<Pedido>(request.id);
 
-            var pedido = new PedidoDto
-            {
-                id = result.id,
-                numeroDePedido = result.numeroDePedido,
-                cicloDelPedido = result.cicloDelPedido,
-                codigoDeContactoInterno = result.codigoDeContratoInterno,
-                estadoDelPedido = result.estadoDelPedido,
-                cuentaCorriente = result.cuentaCorriente,
-                cuando = result.cuando
-            };  
+                var pedido = new PedidoDto
+                {
+                    id = result.id,
+                    numeroDePedido = result.numeroDePedido,
+                    cicloDelPedido = result.cicloDelPedido,
+                    codigoDeContactoInterno = result.codigoDeContratoInterno,
+                    estadoDelPedido = result.estadoDelPedido,
+                    cuentaCorriente = result.cuentaCorriente,
+                    cuando = result.cuando
+                };  
 
-      return new Response<PedidoDto>
-      {
-        Content = pedido,
-        StatusCode = System.Net.HttpStatusCode.OK
-      };
+          return new Response<PedidoDto>
+          {
+            Content = pedido,
+            StatusCode = System.Net.HttpStatusCode.OK
+          };
     }
   }
 }

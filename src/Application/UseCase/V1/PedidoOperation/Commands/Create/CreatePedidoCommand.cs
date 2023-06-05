@@ -46,7 +46,14 @@ namespace onboardingback.Application.UseCase.V1.PersonOperation.Commands.Create
             entity.cicloDelPedido = entity.id.ToString();
             _repository.Insert(entity);
             await _repository.SaveChangeAsync();
-            _logger.LogDebug("El pedido se agregó correctamente");
+
+            if (entity != null)
+            {
+                _logger.LogDebug("El pedido se agregó correctamente");
+
+            }
+            else { _logger.LogDebug("Ocurrió un error"); }
+            
 
             var evento = new Andreani.Scheme.Onboarding.Pedido();
             evento.cicloDelPedido = entity.cicloDelPedido;
@@ -57,7 +64,7 @@ namespace onboardingback.Application.UseCase.V1.PersonOperation.Commands.Create
             evento.numeroDePedido = 0;
             evento.estadoDelPedido = entity.estadoDelPedido.ToString();
 
-            await _publish.To<Andreani.Scheme.Onboarding.Pedido >(evento,entity.id.ToString(),"PedidoCreado");
+            await _publish.To<Andreani.Scheme.Onboarding.Pedido >(evento,entity.id.ToString(),"PedidoCreado1");
 
 
 
