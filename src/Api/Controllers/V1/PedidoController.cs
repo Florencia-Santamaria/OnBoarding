@@ -1,13 +1,14 @@
 ﻿using Andreani.ARQ.Pipeline.Clases;
 using Andreani.ARQ.WebHost.Controllers;
 using onboardingback.Application.UseCase.V1.PersonOperation.Commands.Create;
-using onboardingback.Application.UseCase.V1.PersonOperation.Queries.GetList;
+
 using onboardingback.Domain.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using onboardingback.Application.UseCase.V1.PedidoOperation.Queries.Get;
 
 namespace WebApi.Controllers.V1;
 

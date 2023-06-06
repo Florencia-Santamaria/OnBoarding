@@ -49,8 +49,10 @@ namespace onboardingback.Application.UseCase.V1.PedidoOperation.Commands.Update
                 cuando = DateTime.Parse(pedidoActualizado.cuando)
             };
 
+            pedidoActualizado.estadoDelPedido = 2.ToString();
+
                 
-            _repository.Update(pedidoActualizado);
+            _repository.Update(pedidoEntidad);
                 
             await _repository.SaveChangeAsync();
 

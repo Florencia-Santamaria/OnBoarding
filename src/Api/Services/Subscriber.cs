@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Andreani.ARQ.AMQStreams.Interface;
 using Andreani.Scheme.Onboarding;
+using onboardingback.Application.UseCase.V1.PedidoOperation.Commands.Update;
 
 namespace Api.Services
 {
@@ -28,7 +29,7 @@ namespace Api.Services
 
         public async Task RecivePedidoCreado(Pedido @event)
         {
-           
+           await _mediator.Send(new UpdatePedidoCommand() { Pedido = @event });
         }
 
     }
