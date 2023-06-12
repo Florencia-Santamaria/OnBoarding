@@ -21,12 +21,7 @@ namespace Api.Services
             _publisher = publisher;
             _mediator = mediator;
         }
-        public async Task ReciveCustomEvent(Pedido @event)
-        {
-            // enviar el evento 
-            await _mediator.Send(@event);
-        }
-
+       
         public async Task RecivePedidoCreado(Pedido @event)
         {
            await _mediator.Send(new UpdatePedidoCommand() { Pedido = @event });
